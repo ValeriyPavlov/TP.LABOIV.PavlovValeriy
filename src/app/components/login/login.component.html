@@ -1,0 +1,22 @@
+<div class="bg-secondary bg-gradient vw-100 vh-100">
+  <app-nav-bar></app-nav-bar>
+  <div class="d-flex align-items-center justify-content-center p-5">
+    <div class="card text-center align-self-center">
+      <div class="card-header">
+        <h1>Login</h1>
+      </div>
+      <div class="card-body p-5">
+        <h3>Usuario:</h3>
+        <input type="text" placeholder="Usuario" class="form-control" [(ngModel)]="user"/>
+        <br>
+        <h3>Contraseña:</h3>
+        <input type="password" placeholder="Contraseña" class="form-control"[(ngModel)]="password"/>
+        <br>
+        <input type="button" value="Entrar" class="btn btn-primary btn-block m-3" (click)="logear()"/>
+        <br>
+        <label>¿Aun no estas registrado? <a href="#" (click)="registrarse()">Registrarse</a></label>
+        <br>
+      </div>
+    </div>
+  </div>
+</div>
