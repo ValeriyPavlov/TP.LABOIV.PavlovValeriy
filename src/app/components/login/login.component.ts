@@ -14,6 +14,11 @@ export class LoginComponent {
   public user: string = '';
   public password: string = '';
 
+  public login = "Login";
+  public btnLabel = "Entrar";
+  public btnLabel2 = "Registrarse";
+  public logLabel = "¿Aun no estas registrado?";
+
   public async logear()
   {
     const docRef = await getDocs(collection(db, "usuarios"));
@@ -42,19 +47,50 @@ export class LoginComponent {
     }
   }
 
+  public login_register()
+  {
+    if (this.login != "Login")
+    {
+      this.login = "Login";
+      this.btnLabel = "Entrar";
+      this.btnLabel2 = "Registrarse";
+      this.logLabel = "¿Aun no estas registrado?";
+    }
+    else
+    {
+      this.login = "Registración";
+      this.btnLabel = "Registrarse";
+      this.btnLabel2 = "Login";
+      this.logLabel = "¿Ya estas registrado?";
+    }
+  }
+
   public async registrarse()
   {
+    // VALIDAR que no exista el usuario a registrarse o usar AUTH? 
     if(this.user != "" && this.password != "" && (this.user).length > 2 && (this.password).length > 2)
     {
       const newUserRef = doc(collection(db, "usuarios"));
       await setDoc(newUserRef, {user: this.user, password: this.password});
       console.log("Usuario creado con exito!");
+      this.router.navigateByUrl("/home");
     }
     else
     {
       console.log("Error al crear usuario"); // Agregar aviso de error, componente o un label.
     }
+  }
 
+  public async login_reg()
+  {
+    if (this.login == "Login")
+    {
+      this.logear();
+    }
+    else
+    {
+      this.registrarse();
+    }
   }
 }
 
