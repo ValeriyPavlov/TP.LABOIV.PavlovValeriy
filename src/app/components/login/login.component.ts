@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { DataService } from 'src/app/shared/data.service';
+import { ToastService } from 'angular-toastify'; 
 
 @Component({
   selector: 'app-login',
@@ -9,7 +11,7 @@ import { getFirestore, collection, getDocs, setDoc, doc } from "firebase/firesto
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  constructor(private router: Router){};
+  constructor(private router: Router, private dataService: DataService, private toastService: ToastService){};
 
   public user: string = '';
   public password: string = '';
@@ -33,12 +35,15 @@ export class LoginComponent {
       });
       if (bandera != false)
       {
+        const newUserLog = doc(collection(db, "logs"));
+        await setDoc(newUserLog, {user: this.user, fecha: Date.now()});
+
+        this.enviarUserName();
         this.router.navigateByUrl("/home");
       }
       else
       {
-        // Agregar un componente error o un label?
-        this.router.navigateByUrl("/error");
+        this.addErrorToast("Usuario o Contraseña no validos.");
       }
     }
     catch (err) 
@@ -67,17 +72,40 @@ export class LoginComponent {
 
   public async registrarse()
   {
-    // VALIDAR que no exista el usuario a registrarse o usar AUTH? 
-    if(this.user != "" && this.password != "" && (this.user).length > 2 && (this.password).length > 2)
+    const docRef = await getDocs(collection(db, "usuarios"));
+    var existe = false;
+    try 
     {
-      const newUserRef = doc(collection(db, "usuarios"));
-      await setDoc(newUserRef, {user: this.user, password: this.password});
-      console.log("Usuario creado con exito!");
-      this.router.navigateByUrl("/home");
+      docRef.forEach((doc) => {
+        if (doc.get("user") == this.user)
+        {
+          existe = true;
+        }
+      });
+      if (existe == false)
+      {
+        if(this.user != "" && this.password != "" && (this.user).length > 2 && (this.password).length > 2)
+        {
+          const newUserRef = doc(collection(db, "usuarios"));
+          await setDoc(newUserRef, {user: this.user, password: this.password});
+          const newUserLog = doc(collection(db, "logs"));
+          await setDoc(newUserLog, {user: this.user, fecha: Date.now()});
+          this.enviarUserName();
+          this.router.navigateByUrl("/home");
+        }
+        else
+        {
+          this.addErrorToast("Error: datos no validos!");
+        }
+      }
+      else
+      {
+        this.addErrorToast("Error: el usuario ya existe!");
+      }
     }
-    else
+    catch (err) 
     {
-      console.log("Error al crear usuario"); // Agregar aviso de error, componente o un label.
+      console.log(err);
     }
   }
 
@@ -92,6 +120,22 @@ export class LoginComponent {
       this.registrarse();
     }
   }
+
+  public enviarUserName()
+  {
+    this.dataService.userName = this.user;
+  }
+
+  public autoLog()
+  {
+    this.user = "test";
+    this.password = "test";
+    this.logear();
+  }
+
+  addErrorToast(message: string) {
+    this.toastService.error(message);
+  };
 }
 
 const firebaseConfig = {

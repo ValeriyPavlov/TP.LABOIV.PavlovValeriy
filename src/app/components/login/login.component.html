@@ -1,4 +1,4 @@
-<!-- <div class="bg-secondary bg-gradient vw-100 vh-100"> -->
+
 <div class="bg-image" style="background-image: url('../../../assets/img/Gaming-bg.jpg'); width:100vw; height: 100vh;">
   <app-nav-bar></app-nav-bar>
   <div class="d-flex align-items-center justify-content-center p-5">
@@ -18,7 +18,10 @@
         <label>{{logLabel}}</label>
         <input type="button" value={{btnLabel2}} class="btn btn-secondary m-1" (click)="login_register()"/>
         <br>
+        <br>
+        <input type="button" value="Auto Login" class="btn btn-info m-2" (click)="autoLog()"/>
       </div>
     </div>
   </div>
+    <lib-toastify-toast-container position="bottom-right" transition="flip" [newestOnTop]="true"></lib-toastify-toast-container>
 </div>

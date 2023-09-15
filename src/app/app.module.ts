@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { AboutUsComponent } from './components/about-us/about-us.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { ToastService, AngularToastifyModule } from 'angular-toastify'; 
 
 @NgModule({
   declarations: [
@@ -24,9 +25,10 @@ import { NavBarComponent } from './components/nav-bar/nav-bar.component';
     BrowserModule,
     AppRoutingModule,
     NgbModule,
-    FormsModule
+    FormsModule,
+    AngularToastifyModule
   ],
-  providers: [],
+  providers: [ToastService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
