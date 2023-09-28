@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-about-us',
@@ -6,5 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['./about-us.component.scss']
 })
 export class AboutUsComponent {
+
+  constructor(private router: Router){}
+  public btnLabel = "Volver";
+
+  public btnClick()
+  {
+    this.router.navigateByUrl("/login");
+  }
 
 }

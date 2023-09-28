@@ -1,5 +1,11 @@
 <div class="bg-image" style="background-image: url('../../../assets/img/Gaming-bg.jpg'); width:100vw; height: 100vh;">
-    <app-nav-bar></app-nav-bar>
+    <nav class="navbar navbar-dark bg-dark bg-gradient">
+        <div class="mx-4">
+            <img src="../../../assets/img/joystick.png" alt="joystick" style="width:75px; height: 75px;">
+        </div>
+        <h2 class="font-weight-bold text-white">Bienvenido a la Sala de Juegos</h2>
+        <input type="button" class="bg-success border border-dark border-3 m-3 p-2 rounded" value="{{btnLabel}}" (click)="btnClick()">
+    </nav>
     <div class="d-flex container justify-content-center align-items-center">
         <div class="p-3">
             <h3 class="text-white">Datos del Alumno:</h3><br>
