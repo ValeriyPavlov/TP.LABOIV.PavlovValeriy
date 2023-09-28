@@ -1,23 +1,27 @@
 <div class="bg-image" style="background-image: url('../../../assets/img/Gaming-bg.jpg'); width:100vw; height: 100vh;">
     <div class="d-flex align-items-center justify-content-between p-4">
+        <input type="button" value="Chat" class="btn btn-primary m-2 p-3" (click)="mostrarChat = !mostrarChat">
         <h2 class="text-white">Bienvenido {{user}}!</h2>
         <input type="button" value="Salir" class="btn btn-primary m-2 p-3" (click)="logOut()"/>
     </div>
-    <div class="container d-flex align-items-center justify-content-center p-2">
-        <div class="card m-4 p-5">
-            Ahorcado
-        </div>
+    <div class="d-flex flex-row align-items-center justify-content-center">
+        <div *ngIf="mostrarChat"><app-chat></app-chat></div>
+        <div class="container d-flex align-items-center justify-content-center p-2">
+            <div class="card m-4 p-1">
+                <app-ahorcado></app-ahorcado>
+            </div>
 
-        <div class="card m-4 p-5">
-            Mayor o Menor
-        </div>
+            <div class="card m-4 p-1">
+                <app-mayor-menor></app-mayor-menor>
+            </div>
 
-        <div class="card m-4 p-5">
-            Preguntados
-        </div>
+            <div class="card m-4 p-1">
+                Preguntados
+            </div>
 
-        <div class="card m-4 p-5">
-            Juego a Definir
+            <div class="card m-4 p-1">
+                Juego a Definir
+            </div>
         </div>
-</div>
+    </div>
 </div>

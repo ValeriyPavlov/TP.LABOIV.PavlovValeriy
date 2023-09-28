@@ -11,7 +11,7 @@ export class HomeComponent {
   constructor(private router: Router, private dataService: DataService){};
 
   public user: string = '';
-
+  public mostrarChat: boolean = false;
   public async logOut()
   {
     if(this.user != '')
@@ -25,5 +25,4 @@ export class HomeComponent {
   {
     this.user = this.dataService.userName;
   }
-
 }

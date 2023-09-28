@@ -1,0 +1,10 @@
+<div class="container d-flex justify-content-center align-items-center flex-column">
+    <h2>Mayor o Menor</h2>
+    <div class="card m-2 p-1 bg-dark text-white">Puntaje: {{puntaje}}</div>
+    <div class="card m-2 p-1 d-flex flex-row"><img src="../../../assets/cards/deck.jpg" alt=""> <img src={{cartaImg}}  alt=""></div>
+    <div class="card d-flex flex-row">
+        <input type="button" value="Mayor" class="btn btn-secondary m-1" (click)="Mayor()">
+        <input type="button" value="Menor" class="btn btn-secondary m-1" (click)="Menor()">
+    </div>
+    <input type="button" value={{btnLabel}} class="btn btn-primary m-1" (click)="JugarReiniciar()">
+</div>

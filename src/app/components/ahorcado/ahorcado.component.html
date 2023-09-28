@@ -1,0 +1,42 @@
+<div class="container d-flex align-items-center justify-content-center flex-column" style="max-width: 500px; max-height: 500px;">
+    <h2>Ahorcado</h2>
+    <img src="{{img}}" alt="">
+    <h3>{{pregunta}}</h3>
+    <h2 class="espacio">{{letras}}</h2>
+    <div class="card">
+        <div class="d-flex justify-content-center align-items-center">
+            <input type="button" value="Q" (click)="AgregarLetra('Q')" class="letra">
+            <input type="button" value="W" (click)="AgregarLetra('W')" class="letra">
+            <input type="button" value="E" (click)="AgregarLetra('E')" class="letra">
+            <input type="button" value="R" (click)="AgregarLetra('R')" class="letra">
+            <input type="button" value="T" (click)="AgregarLetra('T')" class="letra">
+            <input type="button" value="Y" (click)="AgregarLetra('Y')" class="letra">
+            <input type="button" value="U" (click)="AgregarLetra('U')" class="letra">
+            <input type="button" value="I" (click)="AgregarLetra('I')" class="letra">
+            <input type="button" value="O" (click)="AgregarLetra('O')" class="letra">
+            <input type="button" value="P" (click)="AgregarLetra('P')" class="letra">
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+            <input type="button" value="A" (click)="AgregarLetra('A')" class="letra">
+            <input type="button" value="S" (click)="AgregarLetra('S')" class="letra">
+            <input type="button" value="D" (click)="AgregarLetra('D')" class="letra">
+            <input type="button" value="F" (click)="AgregarLetra('F')" class="letra">
+            <input type="button" value="G" (click)="AgregarLetra('G')" class="letra">
+            <input type="button" value="H" (click)="AgregarLetra('H')" class="letra">
+            <input type="button" value="J" (click)="AgregarLetra('J')" class="letra">
+            <input type="button" value="K" (click)="AgregarLetra('K')" class="letra">
+            <input type="button" value="L" (click)="AgregarLetra('L')" class="letra">
+            <input type="button" value="Ñ" (click)="AgregarLetra('Ñ')" class="letra">
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+            <input type="button" value="Z" (click)="AgregarLetra('Z')" class="letra">
+            <input type="button" value="X" (click)="AgregarLetra('X')" class="letra">
+            <input type="button" value="C" (click)="AgregarLetra('C')" class="letra">
+            <input type="button" value="V" (click)="AgregarLetra('V')" class="letra">
+            <input type="button" value="B" (click)="AgregarLetra('B')" class="letra">
+            <input type="button" value="N" (click)="AgregarLetra('N')" class="letra">
+            <input type="button" value="M" (click)="AgregarLetra('M')" class="letra">
+        </div>
+    </div>
+    <input type="button" class="btn btn-primary m-2" value="{{btnLabel}}" (click)="Jugar()">
+</div>
