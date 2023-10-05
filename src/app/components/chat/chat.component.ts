@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DataService } from 'src/app/shared/data.service';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, setDoc, doc, orderBy, query } from "firebase/firestore";
@@ -9,7 +9,7 @@ import { getFirestore, collection, getDocs, setDoc, doc, orderBy, query } from "
   styleUrls: ['./chat.component.scss']
 })
 
-export class ChatComponent {
+export class ChatComponent implements OnInit {
   constructor(private dataService: DataService){};
 
 
@@ -29,9 +29,9 @@ export class ChatComponent {
   public async EnviarMensaje(){
     const newChatRef = doc(collection(db, "chat"));
     await setDoc(newChatRef, {user: this.user, fecha: Date.now(), mensaje: this.nuevoMensaje});
+    var usuario = (this.user.split("@"))[0];
+    this.mensajes.push(`${this.crearHorario()} - ${usuario}: ${this.nuevoMensaje}`);
     this.nuevoMensaje = "";
-    this.mensajes = [];
-    this.getChat();
   }
 
   public async getChat(){
@@ -39,7 +39,9 @@ export class ChatComponent {
     const docRef = await getDocs(q);
       try {
         docRef.forEach((doc) => {
-          this.mensajes.push(`${this.crearHorario(new Date(doc.get("fecha")))} - ${doc.get("user")}: ${doc.get("mensaje")}`);
+          var usuario = doc.get("user").split("@");
+          usuario = usuario[0];
+          this.mensajes.push(`${this.crearHorario(new Date(doc.get("fecha")))} - ${usuario}: ${doc.get("mensaje")}`);
         });
       } catch (error) {
         console.log(error);
@@ -58,6 +60,7 @@ export class ChatComponent {
     }
     return horarioFinal;
   }
+
 
 }
 

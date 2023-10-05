@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 
@@ -7,37 +7,27 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './nav-bar.component.html',
   styleUrls: ['./nav-bar.component.scss']
 })
-export class NavBarComponent {
-  constructor(private router: Router, private route: ActivatedRoute){
-    this.route.url.subscribe(url => {
+export class NavBarComponent implements OnInit{
+  constructor(private router: Router, private route: ActivatedRoute){};
 
-      const {path} = url[0];
+  public btnLabel:string = "Quien Soy";
 
-      if(path == "login")
-      {
-        this.btnLabel = "Quien Soy";
-      }
-      else
-      {
-        this.btnLabel = "Volver";
-      }
-    });
-  };
-
-  public btnLabel:string = "";
-
+  ngOnInit(): void {};
 
   public btnClick()
   {
-    if (this.btnLabel == "Quien Soy")
-    {
-      this.router.navigateByUrl("/about-us");
-      this.btnLabel = "Volver";
-    }
-    else
-    {
-      this.btnLabel = "Volver";
-      this.router.navigateByUrl("/login");
-    }
+    this.route.url.subscribe(url => {
+      var {path} = url[0];
+      if(path == "login")
+      {
+        this.router.navigateByUrl("/about-us");
+        this.btnLabel = "Volver";
+      }
+      if(path == "about-us")
+      {
+        this.btnLabel = "Quien Soy";
+        this.router.navigateByUrl("/login");
+      }
+    });
   }
 }

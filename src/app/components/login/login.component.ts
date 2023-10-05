@@ -1,17 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, getDocs, setDoc, doc } from "firebase/firestore";
 import { DataService } from 'src/app/shared/data.service';
 import { ToastService } from 'angular-toastify'; 
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
-  constructor(private router: Router, private dataService: DataService, private toastService: ToastService){};
+export class LoginComponent implements OnInit{
+  constructor(private router: Router, private dataService: DataService, private toastService: ToastService, private authService: AuthService){};
 
   public user: string = '';
   public password: string = '';
@@ -21,35 +22,43 @@ export class LoginComponent {
   public btnLabel2 = "Registrarse";
   public logLabel = "¿Aun no estas registrado?";
 
-  public async logear()
-  {
-    const docRef = await getDocs(collection(db, "usuarios"));
-    var bandera = false;
-    try 
-    {
-      docRef.forEach((doc) => {
-        if (doc.get("user") == this.user && doc.get("password") == this.password)
-        {
-          bandera = true;
-        }
-      });
-      if (bandera != false)
-      {
-        const newUserLog = doc(collection(db, "logs"));
-        await setDoc(newUserLog, {user: this.user, fecha: Date.now()});
+  ngOnInit(){}
 
-        this.enviarUserName();
-        this.router.navigateByUrl("/home");
+  public loginAuth()
+  {
+    this.authService.login(this.user, this.password).then(async res => {
+      if((typeof res) == (typeof "") || res == null)
+      {
+        this.addErrorToast("Usuario o contraseña invalidos.");
       }
       else
       {
-        this.addErrorToast("Usuario o Contraseña no validos.");
+        const newUserLog = doc(collection(db, "logs"));
+        await setDoc(newUserLog, {user: this.user, fecha: Date.now()});
+        this.enviarUserName();
+        this.router.navigateByUrl("/home");
       }
-    }
-    catch (err) 
-    {
-      console.log(err);
-    }
+    });
+  }
+
+  public registerAuth()
+  {
+    this.authService.register(this.user, this.password).then(async res => {
+      if((typeof res) == (typeof "") || res == null)
+      {
+        this.addErrorToast("Error. Datos invalidos.");
+      }
+      else
+      {
+        // Agregar Hasheo de Password
+        const newUser = doc(collection(db, "usuarios"));
+        await setDoc(newUser, {user: this.user, password: this.password});
+        const newUserLog = doc(collection(db, "logs"));
+        await setDoc(newUserLog, {user: this.user, fecha: Date.now()});
+        this.enviarUserName();
+        this.router.navigateByUrl("/home");
+      }
+    });
   }
 
   public login_register()
@@ -70,54 +79,15 @@ export class LoginComponent {
     }
   }
 
-  public async registrarse()
-  {
-    const docRef = await getDocs(collection(db, "usuarios"));
-    var existe = false;
-    try 
-    {
-      docRef.forEach((doc) => {
-        if (doc.get("user") == this.user)
-        {
-          existe = true;
-        }
-      });
-      if (existe == false)
-      {
-        if(this.user != "" && this.password != "" && (this.user).length > 2 && (this.password).length > 2)
-        {
-          const newUserRef = doc(collection(db, "usuarios"));
-          await setDoc(newUserRef, {user: this.user, password: this.password});
-          const newUserLog = doc(collection(db, "logs"));
-          await setDoc(newUserLog, {user: this.user, fecha: Date.now()});
-          this.enviarUserName();
-          this.router.navigateByUrl("/home");
-        }
-        else
-        {
-          this.addErrorToast("Error: datos no validos!");
-        }
-      }
-      else
-      {
-        this.addErrorToast("Error: el usuario ya existe!");
-      }
-    }
-    catch (err) 
-    {
-      console.log(err);
-    }
-  }
-
   public async login_reg()
   {
     if (this.login == "Login")
     {
-      this.logear();
+      this.loginAuth();
     }
     else
     {
-      this.registrarse();
+      this.registerAuth();
     }
   }
 
@@ -128,9 +98,9 @@ export class LoginComponent {
 
   public autoLog()
   {
-    this.user = "test";
-    this.password = "test";
-    this.logear();
+    this.user = "valeriy@gmail.com";
+    this.password = "valeriy";
+    this.loginAuth();
   }
 
   addErrorToast(message: string) {

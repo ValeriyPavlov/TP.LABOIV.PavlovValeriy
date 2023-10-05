@@ -12,7 +12,17 @@ import { ToastService, AngularToastifyModule } from 'angular-toastify';
 import { MayorMenorComponent } from './components/mayor-menor/mayor-menor.component';
 import { AhorcadoComponent } from './components/ahorcado/ahorcado.component';
 import { ChatComponent } from './components/chat/chat.component'; 
-import { AboutUsRoutingModule } from './modules/about-us/about-us-routing.module';
+//import { AboutUsRoutingModule } from './modules/about-us/about-us-routing.module';
+import { AngularFireModule } from '@angular/fire/compat';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC_n-zaJwwDOT_baENLRCAPjeEtItyobmI",
+  authDomain: "tp-sala-juegos-b2d86.firebaseapp.com",
+  projectId: "tp-sala-juegos-b2d86",
+  storageBucket: "tp-sala-juegos-b2d86.appspot.com",
+  messagingSenderId: "420853186094",
+  appId: "1:420853186094:web:a65608cf7a38ffa03529bf"
+};
 
 @NgModule({
   declarations: [
@@ -23,7 +33,7 @@ import { AboutUsRoutingModule } from './modules/about-us/about-us-routing.module
     MayorMenorComponent,
     AhorcadoComponent,
     ChatComponent,
-    NavBarComponent,
+    NavBarComponent
   ],
   imports: [
     BrowserModule,
@@ -31,9 +41,12 @@ import { AboutUsRoutingModule } from './modules/about-us/about-us-routing.module
     NgbModule,
     FormsModule,
     AngularToastifyModule,
-    AboutUsRoutingModule
+    //AboutUsRoutingModule,
+    AngularFireModule.initializeApp(firebaseConfig)
   ],
   providers: [ToastService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+
